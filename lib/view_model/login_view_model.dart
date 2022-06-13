@@ -19,6 +19,6 @@ class LoginViewModel extends GetxController {
     super.onInit();
   }
 
-  set showPassword(bool value) => _showPassword.value;
+  set showPassword(bool state) => _showPassword.value = state;
   bool get enambled => _enabled.value;
 }

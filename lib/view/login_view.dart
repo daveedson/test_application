@@ -145,6 +145,7 @@ class _LogingViewState extends State<LogingView> {
                                   hintText: "password",
                                   suffixIcon: GestureDetector(
                                       onTap: () {
+                                    
                                       controller.showPassword =
                                               !controller.showPassword;
                                       },
