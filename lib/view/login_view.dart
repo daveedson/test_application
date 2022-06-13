@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +8,22 @@ import 'package:get/get.dart';
 import 'package:test_app/animations/bottom_up_animations.dart';
 import 'package:test_app/animations/slide_left_animation.dart';
 import 'package:test_app/view/sign_up_view.dart';
+import 'package:test_app/view_model/login_view_model.dart';
 
 import '../animations/slide_in_right.dart';
 
 class LogingView extends StatefulWidget {
-   static String routeName = "/login";
+  static String routeName = "/login";
   const LogingView({Key? key}) : super(key: key);
+  
 
   @override
   State<LogingView> createState() => _LogingViewState();
 }
 
 class _LogingViewState extends State<LogingView> {
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+      LoginViewModel controller = Get.put(LoginViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,165 +57,186 @@ class _LogingViewState extends State<LogingView> {
                   color: Colors.white),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 26.r, vertical: 20.r),
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: SlideInLeftAnimation(
-                        delay: 0.3,
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              color: Color(0xFF333E63),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 22.sp),
+                child: GetX<LoginViewModel>(builder: (controller) {
+                     print(controller.enambled);
+                  return Form(
+                    key: _formKey,
+                    child: Column(
+                      // ignore: prefer_const_literals_to_create_immutables
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: SlideInLeftAnimation(
+                            delay: 0.3,
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Color(0xFF333E63),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22.sp),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    BottomUpAnimaitons(
-                      delay: 0.3,
-                      child: Text("Email",
-                          style: TextStyle(
-                              color: Color(0xFF333E63),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12.sp)),
-                    ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    BottomUpAnimaitons(
-                      delay: 0.3,
-                      child: Container(
-                        height: 38.h,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 17.r, vertical: 9.r),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              hintStyle: TextStyle(color: Color(0xff88879C)),
-                              hintText: "example@gmail.com",
-                              fillColor: Color(0XFFE6E6E6)),
+                        SizedBox(
+                          height: 12.h,
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    BottomUpAnimaitons(
-                      delay: 0.3,
-                      child: Text("Password",
-                          style: TextStyle(
-                              color: Color(0xFF333E63),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12.sp)),
-                    ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    BottomUpAnimaitons(
-                      delay: 0.3,
-                      child: Container(
-                        height: 38.h,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 17.r, vertical: 9.r),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              hintStyle: TextStyle(color: Color(0xff88879C)),
-                              hintText: "password",
-                              suffixIcon: GestureDetector(
-                                  onTap: () {},
-                                  child: Icon(
-                                    Icons.visibility,
-                                    color: Colors.grey,
-                                  )),
-                              fillColor: Color(0XFFE6E6E6)),
+                        BottomUpAnimaitons(
+                          delay: 0.3,
+                          child: Text("Email",
+                              style: TextStyle(
+                                  color: Color(0xFF333E63),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.sp)),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SlideInRightAnimation(
-                      
-                      delay: 0.3,
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "forgot password?",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Color(0xFFF9923B),
-                                fontWeight: FontWeight.w500),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 37.h,
-                    ),
-                    BottomUpAnimaitons(
-                      delay: 0.3,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: double.infinity,
-                          height: 38.h,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: Text('Login'),
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFF9923B),
-                              // onSurface: Color(0xFFF9923B),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        BottomUpAnimaitons(
+                          delay: 0.3,
+                          child: Container(
+                            height: 38.h,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 17.r, vertical: 9.r),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  hintStyle:
+                                      TextStyle(color: Color(0xff88879C)),
+                                  hintText: "example@gmail.com",
+                                  fillColor: Color(0XFFE6E6E6)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        BottomUpAnimaitons(
+                          delay: 0.3,
+                          child: Text("Password",
+                              style: TextStyle(
+                                  color: Color(0xFF333E63),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.sp)),
+                        ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        BottomUpAnimaitons(
+                          delay: 0.3,
+                          child: Container(
+                            height: 38.h,
+                            child: TextFormField(
+                               enabled: !controller.isLoading,
+                              obscureText: !controller.showPassword,
+                              controller:  controller.passwordController,
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 17.r, vertical: 9.r),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  hintStyle:
+                                      TextStyle(color: Color(0xff88879C)),
+                                  hintText: "password",
+                                  suffixIcon: GestureDetector(
+                                      onTap: () {
+                                      controller.showPassword =
+                                              !controller.showPassword;
+                                      },
+                                      child: Icon(
+                                        controller.showPassword
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                        color: Colors.grey,
+                                      )),
+                                  fillColor: Color(0XFFE6E6E6)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        SlideInRightAnimation(
+                          delay: 0.3,
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "forgot password?",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Color(0xFFF9923B),
+                                    fontWeight: FontWeight.w500),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 37.h,
+                        ),
+                        BottomUpAnimaitons(
+                          delay: 0.3,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: double.infinity,
+                              height: 38.h,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: Text('Login'),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color(0xFFF9923B),
+                                  // onSurface: Color(0xFFF9923B),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(12), // <-- Radius
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 105.h,
-                    ),
-                    BottomUpAnimaitons(
-                      
-                      delay: 0.3,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(color: Colors.black, fontSize: 28.sp),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: 'Dont',
-                                  style: TextStyle(color: Color(0xff88879C))),
-                              TextSpan(text: ' have an account? ',style: TextStyle(color: Color(0xff88879C))),
-                              TextSpan(
-                                 recognizer: TapGestureRecognizer()
-                                    ..onTap = () =>Get.toNamed(SignUpView.routeName),
-                                  text: 'SignUp',
-                                  style: TextStyle(
-                                    color: Color(0xFFF9923B),
-                                      decoration: TextDecoration.underline,))
-                            ],
-                          ),
-                          textScaleFactor: 0.5,
+                        SizedBox(
+                          height: 105.h,
                         ),
-                      ),
-                    )
-                  ],
-                ),
+                        BottomUpAnimaitons(
+                          delay: 0.3,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 28.sp),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: 'Dont',
+                                      style:
+                                          TextStyle(color: Color(0xff88879C))),
+                                  TextSpan(
+                                      text: ' have an account? ',
+                                      style:
+                                          TextStyle(color: Color(0xff88879C))),
+                                  TextSpan(
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () =>
+                                            Get.toNamed(SignUpView.routeName),
+                                      text: 'SignUp',
+                                      style: TextStyle(
+                                        color: Color(0xFFF9923B),
+                                        decoration: TextDecoration.underline,
+                                      ))
+                                ],
+                              ),
+                              textScaleFactor: 0.5,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
               ),
             )
           ],
