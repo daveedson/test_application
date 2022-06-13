@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test_app/utils/LoadingIndicator.dart';
 
 class UiHelper{
  
@@ -64,5 +65,12 @@ class UiHelper{
       borderRadius: 10,
       backgroundColor: Colors.red,
     ));
+  }
+  static showLoading(bool shouldShow) {
+    if (shouldShow) {
+      Get.dialog(LoadingIndicator(), barrierDismissible: false);
+      return;
+    }
+    Get.back();
   }
 }

@@ -21,8 +21,7 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-   final _formKey = GlobalKey<FormState>();
-   SignUpViewModel controller = Get.put(SignUpViewModel());
+  SignUpViewModel controller = Get.put(SignUpViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +56,8 @@ class _SignUpViewState extends State<SignUpView> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 26.r, vertical: 20.r),
                 child: GetX<SignUpViewModel>(builder: (controller) {
-                return  Form(
-                    key:_formKey,
+                  return Form(
+                    key: controller.formKey,
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,6 +94,12 @@ class _SignUpViewState extends State<SignUpView> {
                           child: Container(
                             height: 38.h,
                             child: TextFormField(
+                              validator: (String? s) {
+                                if (controller.nameController!.text.isEmpty) {
+                                  return "First name cannot be empty";
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 17.r, vertical: 9.r),
@@ -102,7 +107,8 @@ class _SignUpViewState extends State<SignUpView> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide.none),
                                   filled: true,
-                                  hintStyle: TextStyle(color: Color(0xff88879C)),
+                                  hintStyle:
+                                      TextStyle(color: Color(0xff88879C)),
                                   hintText: "jane Doe",
                                   fillColor: Color(0XFFE6E6E6)),
                             ),
@@ -127,6 +133,15 @@ class _SignUpViewState extends State<SignUpView> {
                           child: Container(
                             height: 38.h,
                             child: TextFormField(
+                              validator: (String? s) {
+                                if (controller.emailController!.text.isEmpty) {
+                                  return "email cannot be empty";
+                                }
+                                return null;
+                              },
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: controller.emailController,
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 17.r, vertical: 9.r),
@@ -134,7 +149,8 @@ class _SignUpViewState extends State<SignUpView> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide.none),
                                   filled: true,
-                                  hintStyle: TextStyle(color: Color(0xff88879C)),
+                                  hintStyle:
+                                      TextStyle(color: Color(0xff88879C)),
                                   hintText: "example@email.com",
                                   fillColor: Color(0XFFE6E6E6)),
                             ),
@@ -159,9 +175,21 @@ class _SignUpViewState extends State<SignUpView> {
                           child: Container(
                             height: 38.h,
                             child: TextFormField(
-                               enabled: !controller.isLoading,
+                              onChanged: controller.validatePassword,
+                              validator: (String? s) {
+                                if (controller.emailController!.text.isEmpty) {
+                                  return "password cannot be empty";
+                                } else if (!controller.greaterThan8.value ||
+                                    !controller.containsLetter.value ||
+                                    !controller.containsNumber.value ||
+                                    !controller.containsSymbol.value) {
+                                       return "Password is too weak";
+                                    }
+                                return null;
+                              },
+                              enabled: !controller.isLoading,
                               obscureText: !controller.showPassword,
-                              controller:  controller.passwordController,
+                              controller: controller.passwordController,
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 17.r, vertical: 9.r),
@@ -169,17 +197,18 @@ class _SignUpViewState extends State<SignUpView> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: BorderSide.none),
                                   filled: true,
-                                  hintStyle: TextStyle(color: Color(0xff88879C)),
+                                  hintStyle:
+                                      TextStyle(color: Color(0xff88879C)),
                                   hintText: "password",
                                   suffixIcon: GestureDetector(
                                       onTap: () {
-                                         controller.showPassword =
-                                              !controller.showPassword;
+                                        controller.showPassword =
+                                            !controller.showPassword;
                                       },
                                       child: Icon(
-                                              controller.showPassword
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
+                                        controller.showPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
                                         color: Colors.grey,
                                       )),
                                   fillColor: Color(0XFFE6E6E6)),
@@ -235,18 +264,21 @@ class _SignUpViewState extends State<SignUpView> {
                             alignment: Alignment.center,
                             child: RichText(
                               text: TextSpan(
-                                style:
-                                    TextStyle(color: Colors.black, fontSize: 28.sp),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 28.sp),
                                 children: <TextSpan>[
                                   TextSpan(
                                       text: 'Dont',
-                                      style: TextStyle(color: Color(0xff88879C))),
+                                      style:
+                                          TextStyle(color: Color(0xff88879C))),
                                   TextSpan(
                                       text: ' have an account? ',
-                                      style: TextStyle(color: Color(0xff88879C))),
+                                      style:
+                                          TextStyle(color: Color(0xff88879C))),
                                   TextSpan(
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () =>Get.toNamed(LogingView.routeName),
+                                        ..onTap = () =>
+                                            Get.toNamed(LogingView.routeName),
                                       text: 'Login',
                                       style: TextStyle(
                                         color: Color(0xFFF9923B),
@@ -261,8 +293,7 @@ class _SignUpViewState extends State<SignUpView> {
                       ],
                     ),
                   );
-                } 
-                ),
+                }),
               ),
             )
           ],
