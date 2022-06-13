@@ -54,4 +54,15 @@ class UiHelper{
       backgroundColor: Colors.green,
     ));
   }
+
+  static void errorMessage(message, {String title = ""}) {
+    Get.showSnackbar(GetBar(
+      message: message,
+      duration: Duration(seconds: 3),
+      snackPosition: SnackPosition.TOP,
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      borderRadius: 10,
+      backgroundColor: Colors.red,
+    ));
+  }
 }

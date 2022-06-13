@@ -20,7 +20,7 @@ class ApiService{
   ApiService({http.Client? client,this.showError=true}):client = client??http.Client();
 
 
- Future<dynamic> post(String url, {Map<String, dynamic>? data, String? contentType}) async{
+ Future<dynamic> post({required String url, Map<String, dynamic>? data, String? contentType}) async{
     print(baseUrl + url);
     var responseJson;
      try {
