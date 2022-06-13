@@ -9,6 +9,7 @@ class LoginViewModel extends GetxController {
   var _isLoading = false.obs;
   bool get showPassword => _showPassword.value;
   bool get isLoading => _isLoading.value;
+  
   TextEditingController? emailController;
   TextEditingController? passwordController;
 
