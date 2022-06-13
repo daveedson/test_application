@@ -11,6 +11,7 @@ import 'package:test_app/view/sign_up_view.dart';
 import 'package:test_app/view_model/login_view_model.dart';
 
 import '../animations/slide_in_right.dart';
+import '../config/services/remote/implentation/auth_repository_impl.dart';
 
 class LogingView extends StatefulWidget {
   static String routeName = "/login";
@@ -97,6 +98,7 @@ class _LogingViewState extends State<LogingView> {
                           child: Container(
                             height: 38.h,
                             child: TextFormField(
+                             
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 17.r, vertical: 9.r),
@@ -185,7 +187,9 @@ class _LogingViewState extends State<LogingView> {
                               width: double.infinity,
                               height: 38.h,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                               
+                                },
                                 child: Text('Login'),
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFFF9923B),
@@ -245,4 +249,18 @@ class _LogingViewState extends State<LogingView> {
       ),
     );
   }
+
+validatePassword1(String value) {
+    if (value.isEmpty) {
+      return 'Please enter a valid password';
+    }
+    if (value.length < 8) {
+      return 'Password cannot be less than 8 characters';
+    }
+    return null;
+  }
+
+  
 }
+
+

@@ -15,12 +15,13 @@ class AuthRepositoryImplementation implements AuthRepository {
   @override
    login(String email, String password)async {
      try{
-       var response = await apiService.post(url: "api/v1/login",contentType: "application/json",data: {"email":email,"password":password});
-        if(response["statuscode"] == 200){
+       var response = await apiService.post(url: "/api/v1/login",contentType: "application/json",data: {"email":email,"password":password});
+        if(response["user_info"]["is_active_listening"] == true){
           print("--Login in Success---");
           UiHelper.success("Login Successful");
           print(response["user_info"]);
         }else{
+          print(response);
           UiHelper.errorMessage("Something went wrong");
         }
      }catch(e){
@@ -41,7 +42,7 @@ class AuthRepositoryImplementation implements AuthRepository {
 
     try {
       var response = await apiService.post(
-        url: "api/v1/signup",
+        url: "/api/v1/signup",
         contentType: "application/x-www-form-urlencoded",
         data: data,
       );
