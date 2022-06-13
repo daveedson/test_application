@@ -4,11 +4,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:test_app/animations/fade_in_animation.dart';
 import 'package:test_app/view/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
-   static String routeName = "/splash";
+  static String routeName = "/splash";
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
@@ -18,13 +19,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
- Timer(
-            Duration(seconds: 4),
-                () =>
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => LogingView())));
+    Timer(Duration(seconds: 4), () => Get.offAllNamed(LogingView.routeName));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,14 +30,20 @@ class _SplashScreenState extends State<SplashScreen> {
             gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFFFE5D6),Color(0xFF85D3FF)],
+          colors: [Color(0xFFFFE5D6), Color(0xFF85D3FF)],
         )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Center(
             child: FadeInAnimations(
-              delay: 2.0,
-              child: Text("Test App",style: TextStyle(color: Color(0xFF333E63),fontWeight: FontWeight.w700,fontSize: 30.sp),)),
+                delay: 2.0,
+                child: Text(
+                  "Test App",
+                  style: TextStyle(
+                      color: Color(0xFF333E63),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 30.sp),
+                )),
           ),
         ));
   }

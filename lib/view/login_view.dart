@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:test_app/animations/bottom_up_animations.dart';
 import 'package:test_app/animations/slide_left_animation.dart';
+import 'package:test_app/view/sign_up_view.dart';
 
 import '../animations/slide_in_right.dart';
 
@@ -195,6 +198,8 @@ class _LogingViewState extends State<LogingView> {
                                   style: TextStyle(color: Color(0xff88879C))),
                               TextSpan(text: ' have an account? ',style: TextStyle(color: Color(0xff88879C))),
                               TextSpan(
+                                 recognizer: TapGestureRecognizer()
+                                    ..onTap = () =>Get.toNamed(SignUpView.routeName),
                                   text: 'SignUp',
                                   style: TextStyle(
                                     color: Color(0xFFF9923B),

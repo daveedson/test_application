@@ -1,15 +1,18 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:test_app/animations/bottom_up_animations.dart';
 import 'package:test_app/animations/slide_left_animation.dart';
+import 'package:test_app/view/login_view.dart';
 
 import '../animations/slide_in_right.dart';
 
 class SignUpView extends StatefulWidget {
-   static String routeName = "/signup";
+  static String routeName = "/signup";
   const SignUpView({Key? key}) : super(key: key);
 
   @override
@@ -173,7 +176,6 @@ class _SignUpViewState extends State<SignUpView> {
                       height: 10.h,
                     ),
                     SlideInRightAnimation(
-                      
                       delay: 0.3,
                       child: Align(
                           alignment: Alignment.centerRight,
@@ -214,23 +216,28 @@ class _SignUpViewState extends State<SignUpView> {
                       height: 34.h,
                     ),
                     BottomUpAnimaitons(
-                      
                       delay: 0.3,
                       child: Align(
                         alignment: Alignment.center,
                         child: RichText(
                           text: TextSpan(
-                            style: TextStyle(color: Colors.black, fontSize: 28.sp),
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 28.sp),
                             children: <TextSpan>[
                               TextSpan(
                                   text: 'Dont',
                                   style: TextStyle(color: Color(0xff88879C))),
-                              TextSpan(text: ' have an account? ',style: TextStyle(color: Color(0xff88879C))),
                               TextSpan(
+                                  text: ' have an account? ',
+                                  style: TextStyle(color: Color(0xff88879C))),
+                              TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () =>Get.toNamed(LogingView.routeName),
                                   text: 'Login',
                                   style: TextStyle(
                                     color: Color(0xFFF9923B),
-                                      decoration: TextDecoration.underline,))
+                                    decoration: TextDecoration.underline,
+                                  ))
                             ],
                           ),
                           textScaleFactor: 0.5,
