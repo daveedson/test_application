@@ -66,6 +66,7 @@ class UiHelper{
       backgroundColor: Colors.red,
     ));
   }
+  
   static showLoading(bool shouldShow) {
     if (shouldShow) {
       Get.dialog(LoadingIndicator(), barrierDismissible: false);

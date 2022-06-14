@@ -1,8 +1,14 @@
 // ignore_for_file: prefer_final_fields
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:test_app/config/api_service.dart';
+import 'package:test_app/model/signUp_model.dart';
+import 'package:test_app/utils/Ui_helper.dart';
 
 class SignUpViewModel extends GetxController {
   RxBool _showPassword = false.obs;
@@ -10,15 +16,22 @@ class SignUpViewModel extends GetxController {
   var _isLoading = false.obs;
   bool get showPassword => _showPassword.value;
   bool get isLoading => _isLoading.value;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? password;
+  String? confirmPassword;
 
   TextEditingController? emailController;
   TextEditingController? nameController;
   TextEditingController? passwordController;
+
   var greaterThan8 = false.obs;
   var containsNumber = false.obs;
   var containsSymbol = false.obs;
   var containsLetter = false.obs;
-    final formKey = GlobalKey<FormState>();
+
+  GlobalKey<FormState> singUpform = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -62,10 +75,40 @@ class SignUpViewModel extends GetxController {
     }
   }
 
-    signUp(){
-      if(formKey.currentState!.validate()){
-        
-      }
-    }
+//   signUp() async {
+//  //   try {
+//     //  if (formKey.currentState!.validate()) {
 
+//         UiHelper.showLoading(true);
+//         var signUpResponse = await AuthRepositoryImplementation.instance.signUp(firstName: "David", lastName: "Onoh", email: "DavidOnoh@gmail.com", password: "Tianam12@", confirmPassword:"Tianam12@");
+//         UiHelper.showLoading(false);
+//     //   } else {
+//     //     return;
+//     //   }
+//     // // } catch (e) {
+//     //   UiHelper.error(e.toString());
+//     // }
+//   }
+
+  signUp() async {
+    firstName = nameController!.text.trim();
+    email = emailController!.text.trim();
+    password = passwordController!.text.trim();
+    confirmPassword = passwordController!.text.trim();
+    lastName = "";
+
+    SignUpRequestModel signUpRequestModel = SignUpRequestModel(
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      passsword: password,
+      confirmPassword: confirmPassword,
+    );
+    var signUpRequestModelData = signUpRequestModel.toJson();
+    log("data:   $signUpRequestModelData");
+    var response = await ApiService().post("api/v1/signup", data: signUpRequestModelData);
+   
+
+    print("this is the response from viewModel   $response");
+  }
 }

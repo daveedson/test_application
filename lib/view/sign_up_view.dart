@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import '../animations/slide_in_right.dart';
 
 class SignUpView extends StatefulWidget {
   static String routeName = "/signup";
-  const SignUpView({Key? key}) : super(key: key);
+ 
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
@@ -22,6 +22,7 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   SignUpViewModel controller = Get.put(SignUpViewModel());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +31,6 @@ class _SignUpViewState extends State<SignUpView> {
         padding: EdgeInsets.symmetric(horizontal: 26.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             SizedBox(height: 116.h),
@@ -57,7 +57,7 @@ class _SignUpViewState extends State<SignUpView> {
                 padding: EdgeInsets.symmetric(horizontal: 26.r, vertical: 20.r),
                 child: GetX<SignUpViewModel>(builder: (controller) {
                   return Form(
-                    key: controller.formKey,
+                 //   key: controller.singUpform,
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,27 +91,25 @@ class _SignUpViewState extends State<SignUpView> {
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,
-                          child: Container(
-                            height: 38.h,
-                            child: TextFormField(
-                              validator: (String? s) {
-                                if (controller.nameController!.text.isEmpty) {
-                                  return "First name cannot be empty";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 17.r, vertical: 9.r),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide.none),
-                                  filled: true,
-                                  hintStyle:
-                                      TextStyle(color: Color(0xff88879C)),
-                                  hintText: "jane Doe",
-                                  fillColor: Color(0XFFE6E6E6)),
-                            ),
+                          child: TextFormField(
+                            controller: controller.nameController,
+                            validator: (String? s) {
+                              if (controller.nameController!.text.isEmpty) {
+                                return "First name cannot be empty";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 17.r, vertical: 9.r),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                hintStyle:
+                                    TextStyle(color: Color(0xff88879C)),
+                                hintText: "jane Doe",
+                                fillColor: Color(0XFFE6E6E6)),
                           ),
                         ),
                         SizedBox(
@@ -130,30 +128,27 @@ class _SignUpViewState extends State<SignUpView> {
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,
-                          child: Container(
-                            height: 38.h,
-                            child: TextFormField(
-                              validator: (String? s) {
-                                if (controller.emailController!.text.isEmpty) {
-                                  return "email cannot be empty";
-                                }
-                                return null;
-                              },
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              controller: controller.emailController,
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 17.r, vertical: 9.r),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide.none),
-                                  filled: true,
-                                  hintStyle:
-                                      TextStyle(color: Color(0xff88879C)),
-                                  hintText: "example@email.com",
-                                  fillColor: Color(0XFFE6E6E6)),
-                            ),
+                          child: TextFormField(
+                            validator: (String? s) {
+                              if (controller.emailController!.text.isEmpty) {
+                                return "email cannot be empty";
+                              }
+                              return null;
+                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            controller: controller.emailController,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 17.r, vertical: 9.r),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                hintStyle:
+                                    TextStyle(color: Color(0xff88879C)),
+                                hintText: "example@email.com",
+                                fillColor: Color(0XFFE6E6E6)),
                           ),
                         ),
                         SizedBox(
@@ -231,7 +226,7 @@ class _SignUpViewState extends State<SignUpView> {
                               )),
                         ),
                         SizedBox(
-                          height: 37.h,
+                          height: 30.h,
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,
@@ -241,7 +236,10 @@ class _SignUpViewState extends State<SignUpView> {
                               width: double.infinity,
                               height: 38.h,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                //  controller.signUp();
+                               controller.signUp();
+                                },
                                 child: Text('Sign Up'),
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFFF9923B),
@@ -256,7 +254,7 @@ class _SignUpViewState extends State<SignUpView> {
                           ),
                         ),
                         SizedBox(
-                          height: 34.h,
+                          height: 10.h,
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,

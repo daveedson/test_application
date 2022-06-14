@@ -11,7 +11,7 @@ import 'package:test_app/view/sign_up_view.dart';
 import 'package:test_app/view_model/login_view_model.dart';
 
 import '../animations/slide_in_right.dart';
-import '../config/services/remote/implentation/auth_repository_impl.dart';
+
 
 class LogingView extends StatefulWidget {
   static String routeName = "/login";
@@ -23,7 +23,7 @@ class LogingView extends StatefulWidget {
 }
 
 class _LogingViewState extends State<LogingView> {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+   
       LoginViewModel controller = Get.put(LoginViewModel());
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _LogingViewState extends State<LogingView> {
                 child: GetX<LoginViewModel>(builder: (controller) {
                      print(controller.enambled);
                   return Form(
-                    key: _formKey,
+                 //   key: controller.loginformKey,
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,22 +95,25 @@ class _LogingViewState extends State<LogingView> {
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,
-                          child: Container(
-                            height: 38.h,
-                            child: TextFormField(
-                             
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 17.r, vertical: 9.r),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide.none),
-                                  filled: true,
-                                  hintStyle:
-                                      TextStyle(color: Color(0xff88879C)),
-                                  hintText: "example@gmail.com",
-                                  fillColor: Color(0XFFE6E6E6)),
-                            ),
+                          child: TextFormField(
+                            controller: controller.emailController,
+                           validator:(String? s) {
+                              if (controller.emailController!.text.isEmpty) {
+                                return "email cannot be empty";
+                              }
+                              return null;
+                            }, 
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 15.r, vertical: 9.r),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                hintStyle:
+                                    TextStyle(color: Color(0xff88879C)),
+                                hintText: "example@gmail.com",
+                                fillColor: Color(0XFFE6E6E6)),
                           ),
                         ),
                         SizedBox(
@@ -129,36 +132,39 @@ class _LogingViewState extends State<LogingView> {
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,
-                          child: Container(
-                            height: 38.h,
-                            child: TextFormField(
-                               enabled: !controller.isLoading,
-                              obscureText: !controller.showPassword,
-                              controller:  controller.passwordController,
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 17.r, vertical: 9.r),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide.none),
-                                  filled: true,
-                                  hintStyle:
-                                      TextStyle(color: Color(0xff88879C)),
-                                  hintText: "password",
-                                  suffixIcon: GestureDetector(
-                                      onTap: () {
-                                    
-                                      controller.showPassword =
-                                              !controller.showPassword;
-                                      },
-                                      child: Icon(
-                                        controller.showPassword
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                        color: Colors.grey,
-                                      )),
-                                  fillColor: Color(0XFFE6E6E6)),
-                            ),
+                          child: TextFormField(
+                            validator:(String? s) {
+                              if (controller.emailController!.text.isEmpty) {
+                                return "password cannot be empty";
+                              }
+                              return null;
+                            }, 
+                             enabled: !controller.isLoading,
+                            obscureText: !controller.showPassword,
+                            controller:  controller.passwordController,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 17.r, vertical: 9.r),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                hintStyle:
+                                    TextStyle(color: Color(0xff88879C)),
+                                hintText: "password",
+                                suffixIcon: GestureDetector(
+                                    onTap: () {
+                                  
+                                    controller.showPassword =
+                                            !controller.showPassword;
+                                    },
+                                    child: Icon(
+                                      controller.showPassword
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      color: Colors.grey,
+                                    )),
+                                fillColor: Color(0XFFE6E6E6)),
                           ),
                         ),
                         SizedBox(
@@ -187,8 +193,9 @@ class _LogingViewState extends State<LogingView> {
                               width: double.infinity,
                               height: 38.h,
                               child: ElevatedButton(
-                                onPressed: () {
-                               
+                                onPressed: () async{
+                              // controller.loginWithEmail();
+                      //       AuthRepositoryImplementation.instance.login("test@test.com1", "password");
                                 },
                                 child: Text('Login'),
                                 style: ElevatedButton.styleFrom(
@@ -204,7 +211,7 @@ class _LogingViewState extends State<LogingView> {
                           ),
                         ),
                         SizedBox(
-                          height: 105.h,
+                          height: 35.h,
                         ),
                         BottomUpAnimaitons(
                           delay: 0.3,
