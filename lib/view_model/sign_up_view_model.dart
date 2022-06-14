@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, avoid_print
 
 import 'dart:developer';
 
@@ -7,8 +7,10 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:test_app/config/api_service.dart';
+import 'package:test_app/config/services/local/implementation/local_cache_implementation.dart';
 import 'package:test_app/model/signUp_model.dart';
 import 'package:test_app/utils/Ui_helper.dart';
+import 'package:test_app/view/home_view.dart';
 
 class SignUpViewModel extends GetxController {
   RxBool _showPassword = false.obs;
@@ -31,7 +33,7 @@ class SignUpViewModel extends GetxController {
   var containsSymbol = false.obs;
   var containsLetter = false.obs;
 
-  GlobalKey<FormState> singUpform = GlobalKey<FormState>();
+  GlobalKey<FormState> singUpformKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -42,6 +44,10 @@ class SignUpViewModel extends GetxController {
   }
 
   set showPassword(bool state) => _showPassword.value = state;
+  set isLoading(bool state) {
+    _isLoading.value = state;
+  }
+
   bool get enambled => _enabled.value;
 
   validatePassword(String s) {
@@ -75,40 +81,37 @@ class SignUpViewModel extends GetxController {
     }
   }
 
-//   signUp() async {
-//  //   try {
-//     //  if (formKey.currentState!.validate()) {
-
-//         UiHelper.showLoading(true);
-//         var signUpResponse = await AuthRepositoryImplementation.instance.signUp(firstName: "David", lastName: "Onoh", email: "DavidOnoh@gmail.com", password: "Tianam12@", confirmPassword:"Tianam12@");
-//         UiHelper.showLoading(false);
-//     //   } else {
-//     //     return;
-//     //   }
-//     // // } catch (e) {
-//     //   UiHelper.error(e.toString());
-//     // }
-//   }
-
   signUp() async {
-    firstName = nameController!.text.trim();
-    email = emailController!.text.trim();
-    password = passwordController!.text.trim();
-    confirmPassword = passwordController!.text.trim();
-    lastName = "";
+    if (singUpformKey.currentState!.validate()) {
+      isLoading = true;
+      firstName = nameController!.text.trim();
+      email = emailController!.text.trim();
+      password = passwordController!.text.trim();
+      confirmPassword = passwordController!.text.trim();
+      lastName = "";
 
-    SignUpRequestModel signUpRequestModel = SignUpRequestModel(
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      passsword: password,
-      confirmPassword: confirmPassword,
-    );
-    var signUpRequestModelData = signUpRequestModel.toJson();
-    log("data:   $signUpRequestModelData");
-    var response = await ApiService().post("api/v1/signup", data: signUpRequestModelData);
-   
-
-    print("this is the response from viewModel   $response");
+      SignUpRequestModel signUpRequestModel = SignUpRequestModel(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        passsword: password,
+        confirmPassword: confirmPassword,
+      );
+      var signUpRequestModelData = signUpRequestModel.toJson();
+      log("data:   $signUpRequestModelData");
+      var response = await ApiService()
+          .post("api/v1/signup", data: signUpRequestModelData);
+      isLoading = false;
+      if (response != null) {
+        print("this is the response    ${response}");
+        LocalCacheImplementation().saveToken("Token", response["token"]);
+        var token = response["token"];
+        print(token);
+        UiHelper.success("SignUp Successful");
+        Get.offAllNamed(HomeScreen.routeName);
+      } else {
+        UiHelper.error("Something went wrong");
+      }
+    }
   }
 }

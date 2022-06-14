@@ -36,12 +36,13 @@ class ApiService {
     return responseJson;
   }
 
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
       log("---SuccessFul--- ");
         dynamic responseJson = jsonDecode(response.body);
-        UiHelper.success("Success");
+
         return responseJson;
       
       case 400:

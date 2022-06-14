@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:test_app/animations/bottom_up_animations.dart';
 import 'package:test_app/animations/slide_left_animation.dart';
+import 'package:test_app/utils/Ui_helper.dart';
 import 'package:test_app/view/sign_up_view.dart';
 import 'package:test_app/view_model/login_view_model.dart';
 
@@ -24,7 +25,7 @@ class LogingView extends StatefulWidget {
 
 class _LogingViewState extends State<LogingView> {
    
-      LoginViewModel controller = Get.put(LoginViewModel());
+      LoginViewModel lcontroller = Get.put(LoginViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +59,10 @@ class _LogingViewState extends State<LogingView> {
                   color: Colors.white),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 26.r, vertical: 20.r),
-                child: GetX<LoginViewModel>(builder: (controller) {
-                     print(controller.enambled);
+                child: GetX<LoginViewModel>(builder: (loginController) {
+                     print(loginController.enambled);
                   return Form(
-                 //   key: controller.loginformKey,
+                    key: loginController.loginformKey,
                     child: Column(
                       // ignore: prefer_const_literals_to_create_immutables
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,9 +97,9 @@ class _LogingViewState extends State<LogingView> {
                         BottomUpAnimaitons(
                           delay: 0.3,
                           child: TextFormField(
-                            controller: controller.emailController,
+                            controller: loginController.emailController,
                            validator:(String? s) {
-                              if (controller.emailController!.text.isEmpty) {
+                              if (loginController.emailController!.text.isEmpty) {
                                 return "email cannot be empty";
                               }
                               return null;
@@ -134,14 +135,14 @@ class _LogingViewState extends State<LogingView> {
                           delay: 0.3,
                           child: TextFormField(
                             validator:(String? s) {
-                              if (controller.emailController!.text.isEmpty) {
+                              if (loginController.emailController!.text.isEmpty) {
                                 return "password cannot be empty";
                               }
                               return null;
                             }, 
-                             enabled: !controller.isLoading,
-                            obscureText: !controller.showPassword,
-                            controller:  controller.passwordController,
+                             enabled: !loginController.isLoading,
+                            obscureText: !loginController.showPassword,
+                            controller:  loginController.passwordController,
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 17.r, vertical: 9.r),
@@ -155,11 +156,11 @@ class _LogingViewState extends State<LogingView> {
                                 suffixIcon: GestureDetector(
                                     onTap: () {
                                   
-                                    controller.showPassword =
-                                            !controller.showPassword;
+                                    loginController.showPassword =
+                                            !loginController.showPassword;
                                     },
                                     child: Icon(
-                                      controller.showPassword
+                                      loginController.showPassword
                                             ? Icons.visibility
                                             : Icons.visibility_off,
                                       color: Colors.grey,
@@ -192,21 +193,11 @@ class _LogingViewState extends State<LogingView> {
                             child: Container(
                               width: double.infinity,
                               height: 38.h,
-                              child: ElevatedButton(
-                                onPressed: () async{
-                              // controller.loginWithEmail();
-                      //       AuthRepositoryImplementation.instance.login("test@test.com1", "password");
-                                },
-                                child: Text('Login'),
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFFF9923B),
-                                  // onSurface: Color(0xFFF9923B),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(12), // <-- Radius
-                                  ),
-                                ),
-                              ),
+                              child: UiHelper.button(Text("Log in",style: TextStyle(color: Colors.white),), () {
+                                 
+                                  },
+                                      loading: loginController.isLoading,
+                                      color: Color(0xFFF9923B))
                             ),
                           ),
                         ),

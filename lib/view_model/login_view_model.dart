@@ -32,16 +32,6 @@ class LoginViewModel extends GetxController {
 
   set showPassword(bool state) => _showPassword.value = state;
   bool get enambled => _enabled.value;
-
-
-
-  // loginWithEmail()async{
-  //   if(formKey.currentState!.validate()){
-  //          UiHelper.showLoading(true);
-  //     var res = await AuthRepositoryImplementation.instance.login(emailController!.text.trim(), passwordController!.text.trim());
-  //          UiHelper.showLoading(false);
-
-  //   }else{
-  //     return;
-  //   }
+  
+   
   }
