@@ -23,6 +23,7 @@ class SignUpViewModel extends GetxController {
   String? email;
   String? password;
   String? confirmPassword;
+     LocalCacheImplementation localCacheImplementation =    LocalCacheImplementation();
 
   TextEditingController? emailController;
   TextEditingController? nameController;
@@ -44,6 +45,7 @@ class SignUpViewModel extends GetxController {
   }
 
   set showPassword(bool state) => _showPassword.value = state;
+
   set isLoading(bool state) {
     _isLoading.value = state;
   }
@@ -104,7 +106,7 @@ class SignUpViewModel extends GetxController {
       isLoading = false;
       if (response != null) {
         print("this is the response    ${response}");
-        LocalCacheImplementation().saveToken("Token", response["token"]);
+    
         var token = response["token"];
         print(token);
         UiHelper.success("SignUp Successful");

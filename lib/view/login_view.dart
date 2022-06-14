@@ -194,7 +194,7 @@ class _LogingViewState extends State<LogingView> {
                               width: double.infinity,
                               height: 38.h,
                               child: UiHelper.button(Text("Log in",style: TextStyle(color: Colors.white),), () {
-                                 
+                                 loginController.login();
                                   },
                                       loading: loginController.isLoading,
                                       color: Color(0xFFF9923B))

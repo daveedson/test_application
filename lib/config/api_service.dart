@@ -47,22 +47,17 @@ class ApiService {
       
       case 400:
         log("Bad request i fucked up");
-        UiHelper.errorMessage("Something went wrong");
         break;
       case 401:
-       UiHelper.errorMessage("Something went wrong");
        log("Unauthorized ");
         break;
       case 403:
-        UiHelper.errorMessage("Something went wrong");
         log("Forbidden you dont have access");
         break;
       case 404:
-        UiHelper.errorMessage("Something went wrong");
         log("Not Found");
         break;
       case 500:
-       UiHelper.errorMessage("Something went wrong");
         log("Server error");
     }
   }

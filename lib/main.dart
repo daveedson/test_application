@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:test_app/utils/app_router.dart';
+import 'package:test_app/view/home_view.dart';
 import 'package:test_app/view/login_view.dart';
 import 'package:test_app/view/sign_up_view.dart';
 import 'package:test_app/view/splash_screen_view.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           
           primarySwatch: Colors.blue,
         ),
-        initialRoute: SplashScreen.routeName,
+        initialRoute: HomeScreen.routeName,
         getPages: AppRouter.routes,
        
       ),
