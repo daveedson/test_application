@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:test_app/utils/LoadingIndicator.dart';
 
@@ -117,4 +118,57 @@ class UiHelper{
       ),
     );
   }
+
+
+  // ignore_for_file: prefer_const_constructors
+
+
+
+ static customBottomSheet({context, child, @required height, bool padding = true}) {
+  return showModalBottomSheet(
+    backgroundColor: Colors.transparent,
+    isScrollControlled: false,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(15.0),
+      ),
+    ),
+    context: context,
+    builder: (context) {
+      return SizedBox(
+        height: height,
+        child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              Container(
+                height: 5.h,
+                width: 48.w,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(50.0)),
+              ),
+             SizedBox(height:10.h),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(15.0),
+                  ),
+                ),
+                padding: padding ? EdgeInsets.all(20) : EdgeInsets.zero,
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    children: [child],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 }
