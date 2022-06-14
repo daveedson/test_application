@@ -23,7 +23,7 @@ class SignUpViewModel extends GetxController {
   String? email;
   String? password;
   String? confirmPassword;
-     LocalCacheImplementation localCacheImplementation =    LocalCacheImplementation();
+   LocalCacheImplementation localCacheImplementation =    LocalCacheImplementation();
 
   TextEditingController? emailController;
   TextEditingController? nameController;
@@ -101,14 +101,16 @@ class SignUpViewModel extends GetxController {
       );
       var signUpRequestModelData = signUpRequestModel.toJson();
       log("data:   $signUpRequestModelData");
-      var response = await ApiService()
-          .post("api/v1/signup", data: signUpRequestModelData);
+      
+      var response = await ApiService().post("api/v1/signup", data: signUpRequestModelData);
       isLoading = false;
       if (response != null) {
         print("this is the response    ${response}");
-    
-        var token = response["token"];
-        print(token);
+
+       
+       localCacheImplementation.setStringValue("SignUpToken", response['token']);
+      var usertoken = await localCacheImplementation.getStringValue("SignUpToken");
+       print(usertoken);
         UiHelper.success("SignUp Successful");
         Get.offAllNamed(HomeScreen.routeName);
       } else {

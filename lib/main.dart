@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           
           primarySwatch: Colors.blue,
         ),
-        initialRoute: HomeScreen.routeName,
+        initialRoute: SplashScreen.routeName,
         getPages: AppRouter.routes,
        
       ),

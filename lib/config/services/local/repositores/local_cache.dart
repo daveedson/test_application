@@ -1,7 +1,13 @@
 abstract class LocalCache{
    ///Retrieves access token for authorizing requests
-  Future<dynamic> getToken(String key);
+setStringValue(String name, String value);
 
   ///Saves access token for authorizing requests
-  Future<dynamic> saveToken(String key,String value);
+  setIntValue(String name, int value); 
+
+  getStringValue(name);
+
+  getIntValue(name);
+
+  removeValue(name);
 }

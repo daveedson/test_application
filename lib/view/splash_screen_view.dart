@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:test_app/animations/fade_in_animation.dart';
+import 'package:test_app/config/services/local/implementation/local_cache_implementation.dart';
+import 'package:test_app/view/home_view.dart';
 import 'package:test_app/view/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,8 +21,18 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(seconds: 4), () => Get.offAllNamed(LogingView.routeName));
+    checkUser();
     super.initState();
+  }
+
+
+  void checkUser()async{
+     var userId = await LocalCacheImplementation().getIntValue("UserId");
+     if(userId == null){
+      Timer(Duration(seconds: 4), () => Get.offAllNamed(LogingView.routeName));
+     }else{
+          Timer(Duration(seconds: 4), () => Get.offAllNamed(HomeScreen.routeName));
+     }
   }
 
   @override

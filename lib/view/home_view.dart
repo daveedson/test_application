@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:test_app/utils/Ui_helper.dart';
+import 'package:test_app/view_model/home_view_model.dart';
 
 import '../animations/bottom_up_animations.dart';
 import '../animations/slide_left_animation.dart';
@@ -21,37 +23,55 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFFBF8),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => showActionButtomSheet(context),
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          backgroundColor: Color(0xFFF9923B)),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18.r, vertical: 15.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset("images/baby.json"),
-                  Text(
-                    "New borns should be shown here.\nAdd new born by clicking on\n Add the button",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
-            ),
-          ],
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+       gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        colors: [
+        Colors.lightBlueAccent,
+        Colors.yellow.shade700,
+        ],
+    ),
+    shape: BoxShape.circle,
         ),
+        child: FloatingActionButton(
+            onPressed: () => showActionButtomSheet(context),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.transparent),
+      ),
+      body: GetBuilder<HomeViewModel>(
+      init: HomeViewModel(),
+        builder: (controller) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.r, vertical: 15.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset("images/baby.json"),
+                      Text(
+                        "New borns should be shown here.\nAdd a new born by clicking on\n Add the button",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
       ),
     );
   }

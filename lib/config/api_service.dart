@@ -8,6 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:test_app/utils/Ui_helper.dart';
 
 class ApiService {
+
+
+
+  
   String baseUrl = "https://ubenwa-cat-api-stage.herokuapp.com/";
 
   Future<dynamic> get(String url) async {
@@ -21,12 +25,13 @@ class ApiService {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, {Map<String, dynamic>? data}) async {
+  Future<dynamic> post(String url, {Map<String, dynamic>? data, Map<String ,String>? header}) async {
     dynamic responseJson;
     log(baseUrl + url);
     try {
       final response = await http.post(
         Uri.parse(baseUrl + url),
+        headers:header,
         body: data,
       );
       responseJson = returnResponse(response);

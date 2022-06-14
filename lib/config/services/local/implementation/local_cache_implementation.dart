@@ -4,15 +4,34 @@ import 'package:test_app/config/services/local/repositores/local_cache.dart';
 class LocalCacheImplementation implements LocalCache {
   
   @override
-  Future<dynamic> getToken(String key) async {
-   final prefs = await SharedPreferences.getInstance();
-   prefs.getString(key);
+  getStringValue(name)async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? persitValue = prefs.getString(name);
+  return persitValue;
   }
 
   @override
-  Future<dynamic> saveToken(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    prefs.setString(key, value);
+  setIntValue(String name, int value) async{
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(name, value);
   }
+
+  @override
+  setStringValue(String name, String value)async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(name, value);
+  }
+  @override 
+  getIntValue(name) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? persitValue = prefs.getInt(name);
+  return persitValue;
+}
+@override
+removeValue(name) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove(name);
+}
+  
+
 }

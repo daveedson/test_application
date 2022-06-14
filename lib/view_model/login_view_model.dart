@@ -14,7 +14,8 @@ import '../utils/Ui_helper.dart';
 class LoginViewModel extends GetxController {
   RxBool _showPassword = false.obs;
   GlobalKey<FormState> loginformKey = GlobalKey<FormState>();
-   LocalCacheImplementation localCacheImplementation =    LocalCacheImplementation();
+  LocalCacheImplementation localCacheImplementation =
+      LocalCacheImplementation();
   var _enabled = false.obs;
   var _isLoading = false.obs;
   bool get showPassword => _showPassword.value;
@@ -40,7 +41,7 @@ class LoginViewModel extends GetxController {
   set showPassword(bool state) => _showPassword.value = state;
   bool get enambled => _enabled.value;
 
-  login()async {
+  login() async {
     if (loginformKey.currentState!.validate()) {
       isLoading = true;
       email = emailController!.text.trim();
@@ -49,21 +50,24 @@ class LoginViewModel extends GetxController {
         email: email!,
         password: password!,
       );
-    var  loginModelData = loginModel.toJson();
-    log("data:   $loginModelData");
-    var response = await ApiService().post("api/v1/login",data: loginModelData);
-    print(response);
-    isLoading = false;
-    if(response != null){
-      UiHelper.success("SignUp Successful");
+      var loginModelData = loginModel.toJson();
+      log("data:   $loginModelData");
+      var response =
+          await ApiService().post("api/v1/login", data: loginModelData);
+      print(response);
+      isLoading = false;
+      var token = response['token'];
+      if (response != null) {
+        UiHelper.success("SignUp Successful");
+        localCacheImplementation.setStringValue("Token", token);
+        localCacheImplementation.setIntValue("UserId", response['user_id']);
+        var userId = await localCacheImplementation.getIntValue("UserId");
+        print(userId);
 
-        localCacheImplementation.saveToken("Token", response["token"]);
-      var userToken = await localCacheImplementation.getToken('Token');
-     print(userToken);
         Get.offAllNamed(HomeScreen.routeName);
-    }else{
-             UiHelper.errorMessage("Wrong email or password");
-    }
+      } else {
+        UiHelper.errorMessage("Wrong email or password");
+      }
     }
   }
 }
