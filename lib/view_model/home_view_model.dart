@@ -13,6 +13,13 @@ class HomeViewModel extends GetxController {
   String? name;
   String? gender;
   String? gestation;
+  var _isLoading = false.obs;
+  bool get isLoading => _isLoading.value;
+
+  set isLoading(bool state) {
+    _isLoading.value = state;
+  }
+
   TextEditingController? childNameController;
   TextEditingController? genderController;
   LocalCacheImplementation localCacheImplementation =
@@ -25,22 +32,39 @@ class HomeViewModel extends GetxController {
   }
 
   createNewBorn() async {
+    try{
+isLoading = true;
+    name = childNameController!.text.trim();
+    gender = genderController!.text.trim();
+    gestation = DateTime.now().toIso8601String();
+
     CreateNewBornModel newBorn = CreateNewBornModel(
       gender: gender!,
       name: name!,
       gestation: gestation!,
     );
 
+    name = childNameController!.text.trim();
+    gender = genderController!.text.trim();
+    gestation = DateTime.now().toIso8601String();
+
     var newBornData = newBorn.toJson();
     log(newBornData.toString());
     var userToken = await localCacheImplementation.getStringValue("Token");
 
-    var response = ApiService().post("api/v1/newborns",data: newBornData,header: {'Authorization': 'Bearer $userToken'});
-
-    if(response != null){
-        print("--New born Created Successfully");
-    }else{
-       UiHelper.errorMessage("Something went wrong");
+    var response = await ApiService().post("api/v1/newborns",
+        data: newBornData, header: {'Authorization': 'Bearer $userToken'});
+    isLoading = false;
+    if (response != null) {
+      print("--New born Created Successfully");
+      print(response);
+    } else {
+      UiHelper.errorMessage("Something went wrong");
     }
+    }catch(e){
+        log(e.toString());
+         UiHelper.errorMessage("Something went wrong");
+    }
+    
   }
 }

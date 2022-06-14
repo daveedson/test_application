@@ -44,8 +44,10 @@ class LoginViewModel extends GetxController {
   login() async {
     if (loginformKey.currentState!.validate()) {
       isLoading = true;
+      
       email = emailController!.text.trim();
       password = passwordController!.text.trim();
+
       LoginModel loginModel = LoginModel(
         email: email!,
         password: password!,
