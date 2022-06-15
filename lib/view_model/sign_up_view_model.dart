@@ -11,6 +11,7 @@ import 'package:test_app/config/services/local/implementation/local_cache_implem
 import 'package:test_app/model/signUp_model.dart';
 import 'package:test_app/utils/Ui_helper.dart';
 import 'package:test_app/view/home_view.dart';
+import 'package:test_app/view/login_view.dart';
 
 class SignUpViewModel extends GetxController {
   RxBool _showPassword = false.obs;
@@ -84,7 +85,8 @@ class SignUpViewModel extends GetxController {
   }
 
   signUp() async {
-    if (singUpformKey.currentState!.validate()) {
+    try{
+if (singUpformKey.currentState!.validate()) {
       isLoading = true;
       firstName = nameController!.text.trim();
       email = emailController!.text.trim();
@@ -101,7 +103,7 @@ class SignUpViewModel extends GetxController {
       );
       var signUpRequestModelData = signUpRequestModel.toJson();
       log("data:   $signUpRequestModelData");
-      
+
       var response = await ApiService().post("api/v1/signup", data: signUpRequestModelData);
       isLoading = false;
       if (response != null) {
@@ -112,10 +114,16 @@ class SignUpViewModel extends GetxController {
       var usertoken = await localCacheImplementation.getStringValue("SignUpToken");
        print(usertoken);
         UiHelper.success("SignUp Successful");
-        Get.offAllNamed(HomeScreen.routeName);
+        Get.offAllNamed(LogingView.routeName);
       } else {
-        UiHelper.error("Something went wrong");
+        UiHelper.errorMessage("Something went wrong");
       }
     }
+    }catch(e){
+       UiHelper.error(e.toString().split(":").last);
+      log("${e.toString()} while loggin in");
+       isLoading = false;    
+    }
+    
   }
 }

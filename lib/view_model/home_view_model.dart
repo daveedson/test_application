@@ -12,9 +12,11 @@ import 'package:test_app/utils/Ui_helper.dart';
 class HomeViewModel extends GetxController {
   String? name;
   String? gender;
+  String? personName;
   String? gestation;
   var _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
+
 
   set isLoading(bool state) {
     _isLoading.value = state;
@@ -28,12 +30,21 @@ class HomeViewModel extends GetxController {
   void onInit() {
     childNameController = TextEditingController();
     genderController = TextEditingController();
+     getUsername();
     super.onInit();
   }
 
+
+
+  getUsername()async{
+   personName =  await LocalCacheImplementation().getStringValue("name");
+   print(personName);
+   return personName;
+  }
+
   createNewBorn() async {
-    try{
-isLoading = true;
+  //  try{
+    isLoading = true;
     name = childNameController!.text.trim();
     gender = genderController!.text.trim();
     gestation = DateTime.now().toIso8601String();
@@ -43,28 +54,31 @@ isLoading = true;
       name: name!,
       gestation: gestation!,
     );
+    
 
     name = childNameController!.text.trim();
     gender = genderController!.text.trim();
     gestation = DateTime.now().toIso8601String();
+  
 
     var newBornData = newBorn.toJson();
     log(newBornData.toString());
     var userToken = await localCacheImplementation.getStringValue("Token");
-
-    var response = await ApiService().post("api/v1/newborns",
-        data: newBornData, header: {'Authorization': 'Bearer $userToken'});
-    isLoading = false;
+    print(userToken);
+    var response = await ApiService().postAuth("api/v1/newborns",data: newBornData,token: userToken);
+     isLoading = false;
+    print(response);
+   
     if (response != null) {
       print("--New born Created Successfully");
       print(response);
     } else {
       UiHelper.errorMessage("Something went wrong");
     }
-    }catch(e){
-        log(e.toString());
-         UiHelper.errorMessage("Something went wrong");
-    }
+    // }catch(e){
+    //     log(e.toString());
+    //      UiHelper.errorMessage("Something went wrong");
+    // }
     
   }
 }

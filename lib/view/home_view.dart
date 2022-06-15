@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:lottie/lottie.dart';
 import 'package:test_app/utils/Ui_helper.dart';
+import 'package:test_app/view/splash_screen_view.dart';
+import 'package:test_app/view_model/login_view_model.dart';
 
 import '../animations/bottom_up_animations.dart';
 import '../animations/slide_left_animation.dart';
@@ -19,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+ HomeViewModel hcontroller = Get.put(HomeViewModel());
+   LoginViewModel lcontroller = Get.put(LoginViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
     shape: BoxShape.circle,
         ),
         child: FloatingActionButton(
-            onPressed: () => showActionButtomSheet(context),
+            onPressed: (){
+showActionButtomSheet(context);
+
+            } ,
             child: Icon(
               Icons.add,
               color: Colors.white,
@@ -46,8 +54,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.r, vertical: 15.r),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+         // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 50.h),
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.yellow.shade700,
+                  child: Center(child: Icon(Icons.person,color:Colors.grey))),
+                SizedBox(width:10.w),
+                Text("Hi, Good Morning ☀️",style:TextStyle(fontSize:17.sp,fontWeight: FontWeight.w700))
+              ],
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,9 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Lottie.asset("images/baby.json"),
                   Text(
-                    "New borns should be shown here.\nAdd a new born by clicking on\n Add the button",
+                    "New borns should be shown here.\nAdd a new born by clicking on the\n Add button",
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.grey,           
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500),
                     textAlign: TextAlign.center,

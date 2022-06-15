@@ -21,6 +21,8 @@ class LoginViewModel extends GetxController {
   bool get showPassword => _showPassword.value;
   bool get isLoading => _isLoading.value;
 
+  String? userName;
+
   set isLoading(bool state) {
     _isLoading.value = state;
   }
@@ -42,34 +44,44 @@ class LoginViewModel extends GetxController {
   bool get enambled => _enabled.value;
 
   login() async {
-    if (loginformKey.currentState!.validate()) {
-      isLoading = true;
-      
-      email = emailController!.text.trim();
-      password = passwordController!.text.trim();
+    try {
+      if (loginformKey.currentState!.validate()) {
+        isLoading = true;
 
-      LoginModel loginModel = LoginModel(
-        email: email!,
-        password: password!,
-      );
-      var loginModelData = loginModel.toJson();
-      log("data:   $loginModelData");
-      var response =
-          await ApiService().post("api/v1/login", data: loginModelData);
-      print(response);
-      isLoading = false;
-      var token = response['token'];
-      if (response != null) {
-        UiHelper.success("SignUp Successful");
-        localCacheImplementation.setStringValue("Token", token);
-        localCacheImplementation.setIntValue("UserId", response['user_id']);
-        var userId = await localCacheImplementation.getIntValue("UserId");
-        print(userId);
+        email = emailController!.text.trim();
+        password = passwordController!.text.trim();
 
-        Get.offAllNamed(HomeScreen.routeName);
-      } else {
-        UiHelper.errorMessage("Wrong email or password");
+        LoginModel loginModel = LoginModel(
+          email: email!,
+          password: password!,
+        );
+        var loginModelData = loginModel.toJson();
+        log("data:   $loginModelData");
+        var response =
+            await ApiService().post("api/v1/login", data: loginModelData);
+        print(response);
+        isLoading = false;
+
+        if (response != null) {
+          UiHelper.success("SignUp Successful");
+          var token = response['token'];
+          localCacheImplementation.setStringValue("Token", token);
+          localCacheImplementation.setStringValue(
+              "name", response["user_info"]["first_name"]);
+          localCacheImplementation.setIntValue("UserId", response['user_id']);
+          var userId = await localCacheImplementation.getIntValue("UserId");
+          userName = await LocalCacheImplementation().getStringValue("name");
+          print(userId);
+
+          Get.offAllNamed(HomeScreen.routeName);
+        } else {
+          UiHelper.errorMessage("Wrong email or password");
+        }
       }
+    } catch (e) {
+      UiHelper.error(e.toString().split(":").last);
+      log("${e.toString()} while loggin in");
+      isLoading = false;
     }
   }
 }

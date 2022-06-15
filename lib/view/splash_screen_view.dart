@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,10 +10,13 @@ import 'package:test_app/animations/fade_in_animation.dart';
 import 'package:test_app/config/services/local/implementation/local_cache_implementation.dart';
 import 'package:test_app/view/home_view.dart';
 import 'package:test_app/view/login_view.dart';
+import 'package:test_app/view/sign_up_view.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName = "/splash";
   const SplashScreen({Key? key}) : super(key: key);
+
+  static String? username;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -29,8 +33,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkUser()async{
      var userId = await LocalCacheImplementation().getIntValue("UserId");
      if(userId == null){
-      Timer(Duration(seconds: 4), () => Get.offAllNamed(LogingView.routeName));
+      Timer(Duration(seconds: 4), () => Get.offAllNamed(SignUpView.routeName));
      }else{
+        SplashScreen.username = await  LocalCacheImplementation().getStringValue("name");
           Timer(Duration(seconds: 4), () => Get.offAllNamed(HomeScreen.routeName));
      }
   }

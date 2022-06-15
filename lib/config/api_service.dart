@@ -24,14 +24,14 @@ class ApiService {
     }
     return responseJson;
   }
-
-  Future<dynamic> post(String url, {Map<String, dynamic>? data, Map<String ,String>? header}) async {
+   //Map<String ,String>? header
+  Future<dynamic> post(String url, {Map<String, dynamic>? data }) async {
     dynamic responseJson;
     log(baseUrl + url);
     try {
       final response = await http.post(
         Uri.parse(baseUrl + url),
-        headers: header!,
+        //headers: header!,
         body: data,
       );
       responseJson = returnResponse(response);
@@ -40,6 +40,26 @@ class ApiService {
     }
     return responseJson;
   }
+  Future<dynamic> postAuth(String url, {Map<String, dynamic>? data, String? token }) async {
+    dynamic responseJson;
+    log(baseUrl + url);
+   try {
+      final response = await http.post(
+        Uri.parse(baseUrl + url),
+         body: json.encode(data),
+        headers: {
+          'Content-Type': "application/vnd.api+json",
+          "Authorization" :"Bearer $token"
+        },
+       
+      );
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+
 
 
   dynamic returnResponse(http.Response response) {
