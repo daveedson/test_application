@@ -11,6 +11,7 @@ class ParserUtil<T> {
     }
   }
 
+  
   static String parseJsonString(
     Object? json,
     String param, {
@@ -70,10 +71,7 @@ class ParserUtil<T> {
     }
   }
 
-  List<T> parseJsonList({
-    required List<dynamic>? json,
-    required T Function(dynamic json) fromJson,
-  }) {
+  List<T> parseJsonList({ required List<dynamic>? json, required T Function(dynamic json) fromJson,}) {
     try {
       final data = List<dynamic>.from(json!);
 

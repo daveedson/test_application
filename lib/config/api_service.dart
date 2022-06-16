@@ -9,10 +9,16 @@ import 'package:test_app/utils/Ui_helper.dart';
 class ApiService {
   String baseUrl = "https://ubenwa-cat-api-stage.herokuapp.com/";
 
-  Future<dynamic> get(String url) async {
+  Future<dynamic> get(String url,String token) async {
     dynamic responseJson;
     try {
-      final response = await http.get(Uri.parse(baseUrl + url));
+      final response = await http.get(
+        Uri.parse(baseUrl + url),
+        headers: {
+          'Content-Type': "application/json",
+      "Authorization": "Bearer  $token"
+        }
+        );
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

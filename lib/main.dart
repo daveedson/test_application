@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,8 +10,11 @@ import 'package:test_app/view/login_view.dart';
 import 'package:test_app/view/sign_up_view.dart';
 import 'package:test_app/view/splash_screen_view.dart';
 
+
+
 void main() {
   runApp(const MyApp());
+ 
 }
 
 class MyApp extends StatelessWidget {

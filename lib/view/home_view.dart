@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:lottie/lottie.dart';
+import 'package:test_app/model/api_response.dart';
 import 'package:test_app/utils/Ui_helper.dart';
 import 'package:test_app/utils/cardView.dart';
 import 'package:test_app/view/splash_screen_view.dart';
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Expanded(
-                  child: hcontroller.names.isEmpty?  Column(
+                  child: hcontroller.newBornss.status == Status.LOADING?   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -89,11 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.builder(
                           padding:
                               EdgeInsets.only(left: 20, right: 20, top: 20),
-                          itemCount:hcontroller.names.length,
+                          itemCount:hcontroller.newBornss.data!.newBornResults.length,
                           itemBuilder: ((context, index) {
                             return NotesCardView(
-                              noteText: hController.gender!,
-                              noteHearder:hcontroller.names.first,
+                              noteText: hController.newBornss.data!.newBornResults[index].gestation,
+                              noteHearder:hController.newBornss.data!.newBornResults[index].name,
                                   
                               onTap: () async {
                                 //onclick  of each item in the list this data is assinged to the new variable
@@ -179,7 +180,8 @@ void showActionButtomSheet(context) {
                       style: TextStyle(color: Colors.white) ),
                       
                     () {
-                      controller.createNewBorn();
+                    //  controller.createNewBorn();
+                    controller.getNewBorns();
                     },
                     loading: controller.isLoading,
                     color: Color(0xFFF9923B)),
