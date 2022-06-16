@@ -53,7 +53,7 @@ class HomeViewModel extends GetxController {
   createNewBorn() async {
     try {
       isLoading = true;
-      name = "john";
+      name = "Tochukwu Kelvin";
       gender = "male";
       gestation = DateTime.now().toIso8601String();
 
