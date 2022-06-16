@@ -3,29 +3,25 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:test_app/utils/Ui_helper.dart';
 
 class ApiService {
-
-
-
-  
   String baseUrl = "https://ubenwa-cat-api-stage.herokuapp.com/";
 
   Future<dynamic> get(String url) async {
     dynamic responseJson;
     try {
       final response = await http.get(Uri.parse(baseUrl + url));
-      responseJson = returnResponse(response);
+      responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
     return responseJson;
   }
-   //Map<String ,String>? header
-  Future<dynamic> post(String url, {Map<String, dynamic>? data }) async {
+
+  //Map<String ,String>? header
+  Future<dynamic> post(String url, {Map<String, dynamic>? data}) async {
     dynamic responseJson;
     log(baseUrl + url);
     try {
@@ -34,47 +30,57 @@ class ApiService {
         //headers: header!,
         body: data,
       );
-      responseJson = returnResponse(response);
+      responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
     return responseJson;
   }
-  Future<dynamic> postAuth(String url, {Map<String, dynamic>? data, String? token }) async {
+
+  //check the postAuth
+  Future<dynamic> postAuth(String url,{Map<String, dynamic>? data, String? token}) async {
+    Map<String, String> header = {
+      'Content-Type': "application/vnd.api+json",
+      "Authorization": "Bearer  $token"
+    };
+
     dynamic responseJson;
     log(baseUrl + url);
-   try {
-      final response = await http.post(
-        Uri.parse(baseUrl + url),
-         body: json.encode(data),
-        headers: {
-          'Content-Type': "application/vnd.api+json",
-          "Authorization" :"Bearer $token"
-        },
-       
-      );
-      responseJson = returnResponse(response);
+
+    try {
+    final response = await http.post(
+      Uri.parse(baseUrl + url),
+      body: json.encode(data),
+      headers: header,
+    );
+    log(response.statusCode.toString());
+
+    //responseJson = _returnResponse(response);
+    return response;
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-    return responseJson;
+  //  responseJson;
   }
 
 
+  
 
-  dynamic returnResponse(http.Response response) {
+  dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-      log("---SuccessFul--- ");
-        dynamic responseJson = jsonDecode(response.body);
-
+        log("---SuccessFul--- ");
+        var responseJson = json.decode(response.body.toString());
         return responseJson;
-      
+      case 201:  
+        log("---SuccessFul--- ");
+        var responseJson = response.body.toString();
+        return responseJson;
       case 400:
         log("Bad request i fucked up");
         break;
       case 401:
-       log("Unauthorized ");
+        log("Unauthorized ");
         break;
       case 403:
         log("Forbidden you dont have access");

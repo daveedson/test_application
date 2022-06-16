@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:lottie/lottie.dart';
 import 'package:test_app/utils/Ui_helper.dart';
+import 'package:test_app/utils/cardView.dart';
 import 'package:test_app/view/splash_screen_view.dart';
 import 'package:test_app/view_model/login_view_model.dart';
 
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: FloatingActionButton(
             onPressed: (){
-showActionButtomSheet(context);
+       showActionButtomSheet(context);
 
             } ,
             child: Icon(
@@ -53,37 +54,58 @@ showActionButtomSheet(context);
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.r, vertical: 15.r),
-        child: Column(
-         // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 50.h),
-            Row(
+        child: GetBuilder<HomeViewModel>(
+          builder: (hController) {
+            return Column(
+             // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.yellow.shade700,
-                  child: Center(child: Icon(Icons.person,color:Colors.grey))),
-                SizedBox(width:10.w),
-                Text("Hi, Good Morning ☀️",style:TextStyle(fontSize:17.sp,fontWeight: FontWeight.w700))
+                SizedBox(height: 50.h),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.yellow.shade700,
+                      child: Center(child: Icon(Icons.person,color:Colors.grey))),
+                    SizedBox(width:10.w),
+                    Text("Hi, Good Morning ☀️",style:TextStyle(fontSize:17.sp,fontWeight: FontWeight.w700))
+                  ],
+                ),
+                Expanded(
+                  child: hcontroller.names.isEmpty?  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset("images/baby.json"),
+                      Text(
+                        "New borns should be shown here.\nAdd a new born by clicking on the\n Add button",
+                        style: TextStyle(
+                            color: Colors.grey,           
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ): Align(
+                      alignment: Alignment.topCenter,
+                      child: ListView.builder(
+                          padding:
+                              EdgeInsets.only(left: 20, right: 20, top: 20),
+                          itemCount:hcontroller.names.length,
+                          itemBuilder: ((context, index) {
+                            return NotesCardView(
+                              noteText: hController.gender!,
+                              noteHearder:hcontroller.names.first,
+                                  
+                              onTap: () async {
+                                //onclick  of each item in the list this data is assinged to the new variable
+                              
+                              },
+                            );
+                          })),
+                    ),
+                ),
               ],
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset("images/baby.json"),
-                  Text(
-                    "New borns should be shown here.\nAdd a new born by clicking on the\n Add button",
-                    style: TextStyle(
-                        color: Colors.grey,           
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
-            ),
-          ],
+            );
+          }
         ),
       ),
     );

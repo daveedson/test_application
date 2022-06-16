@@ -16,6 +16,7 @@ class HomeViewModel extends GetxController {
   String? gestation;
   var _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
+  RxList<dynamic> names = [].obs;
 
 
   set isLoading(bool state) {
@@ -24,8 +25,7 @@ class HomeViewModel extends GetxController {
 
   TextEditingController? childNameController;
   TextEditingController? genderController;
-  LocalCacheImplementation localCacheImplementation =
-      LocalCacheImplementation();
+  LocalCacheImplementation localCacheImplementation = LocalCacheImplementation();
   @override
   void onInit() {
     childNameController = TextEditingController();
@@ -43,10 +43,10 @@ class HomeViewModel extends GetxController {
   }
 
   createNewBorn() async {
-  //  try{
+    try{
     isLoading = true;
-    name = childNameController!.text.trim();
-    gender = genderController!.text.trim();
+    name = "john";
+    gender = "male";
     gestation = DateTime.now().toIso8601String();
 
     CreateNewBornModel newBorn = CreateNewBornModel(
@@ -56,9 +56,9 @@ class HomeViewModel extends GetxController {
     );
     
 
-    name = childNameController!.text.trim();
-    gender = genderController!.text.trim();
-    gestation = DateTime.now().toIso8601String();
+  //   name = childNameController!.text.trim();
+  //   gender = genderController!.text.trim();
+  //  gestation = DateTime.now().toIso8601String();
   
 
     var newBornData = newBorn.toJson();
@@ -70,15 +70,26 @@ class HomeViewModel extends GetxController {
     print(response);
    
     if (response != null) {
-      print("--New born Created Successfully");
-      print(response);
+      print("--New born Created Successfully--");
+      names.add(name);
+      
+      print(names);
+      // name = "";
+      // gender = "";
+      // childNameController!.clear();
+      // genderController!.clear();
+      
+       UiHelper.success("New born created successfully");
+     
+   
     } else {
       UiHelper.errorMessage("Something went wrong");
     }
-    // }catch(e){
-    //     log(e.toString());
-    //      UiHelper.errorMessage("Something went wrong");
-    // }
+    update();
+    }catch(e){
+        log(e.toString());
+         UiHelper.errorMessage("Something went wrong");
+    }
     
   }
 }

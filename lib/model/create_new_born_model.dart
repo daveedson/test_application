@@ -7,15 +7,16 @@ final String gender;
   CreateNewBornModel({required this.name, required this.gestation, required this.gender});
  
   Map<String, dynamic> toJson() {
-   return  {
+   return {
+    "data": {
         "type": "newborns",
         "attributes": {
             "name": name,
             "gestation": gestation,
             "gender": gender
         }
-  
-  };
+    }
+};
 }
 }
 
