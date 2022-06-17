@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ): Align(
                       alignment: Alignment.topCenter,
                       child: ListView.builder(
-                        reverse: true,
+                       reverse: true,
                           padding:
                               EdgeInsets.only(left: 20, right: 20, top: 20),
                           itemCount:hcontroller.newBornss.data!.newBornResults.length,

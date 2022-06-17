@@ -53,7 +53,7 @@ class HomeViewModel extends GetxController {
   createNewBorn() async {
     try {
       isLoading = true;
-      name = "Tochukwu Kelvin";
+      name = "igwe Nonso";
       gender = "male";
       gestation = DateTime.now().toIso8601String();
 
@@ -82,9 +82,10 @@ class HomeViewModel extends GetxController {
 
         print(names);
 
-        UiHelper.success("New born created successfully");
+        
       } else {
-        UiHelper.errorMessage("Something went wrong");
+          print('error');
+       // UiHelper.errorMessage("Something went wrong");
       }
       update();
     } catch (e) {

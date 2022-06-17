@@ -31,9 +31,9 @@ void backgroundFetchHeadlessTask(String taskId) async {
 // }
 
 void main() async {
- 
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
-  runApp(const MyApp());
+ runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized(); 
+   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
 
 class MyApp extends StatefulWidget {
